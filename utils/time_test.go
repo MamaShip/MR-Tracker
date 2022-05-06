@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/MamaShip/MR-Tracker/utils"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParseTime(t *testing.T) {
@@ -14,7 +15,5 @@ func TestParseTime(t *testing.T) {
 		t.Errorf("ParseTime(%s) failed with error: %s", time_str, err)
 	}
 	// fmt.Println(tt)
-	if tt.Format(time.RFC3339Nano) != time_str {
-		t.Errorf("ParseTime(%s) failed with time: %s", time_str, tt.Format(time.RFC3339))
-	}
+	assert.Equal(t, tt.Format(time.RFC3339Nano), time_str)
 }

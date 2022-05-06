@@ -9,9 +9,8 @@ import (
 
 var token = "xxxxxxxxxxx"
 
-func FindMRs(start_tag string, end_tag string) ([]MergeRequest, error) {
+func FindMRsBetween(start_tag string, end_tag string) ([]MergeRequest, error) {
 	g := NewCustomGitlab("gitlab.qitantech.com", token)
-
 	tags := g.getTags()
 
 	start, err := findTag(tags, start_tag)
@@ -25,13 +24,10 @@ func FindMRs(start_tag string, end_tag string) ([]MergeRequest, error) {
 		return nil, err
 	}
 
-	fmt.Println(start.Commit.CreatedAt, end.Commit.CreatedAt)
+	// fmt.Println(start.Commit.CreatedAt, end.Commit.CreatedAt)
 	mrs := g.getMRsAfter(start.Commit.CreatedAt)
 	mrs = filterMRs(mrs, start, end)
 
-	for _, mr := range mrs {
-		fmt.Println(mr.Title, mr.MergedAt) //,mr.MergeCommit) //
-	}
 	return mrs, nil
 }
 
@@ -40,7 +36,7 @@ func (g *Gitlab) getTags() []Tag {
 	p := url.Values{}
 	p.Set("private_token", g.Token)
 	get_tag := FormRequest(tag_api, p)
-	fmt.Println(get_tag)
+	// fmt.Println(get_tag)
 	json_str := utils.Get(get_tag)
 	return ParseTags(json_str)
 }
@@ -65,7 +61,7 @@ func (g *Gitlab) getMRsAfter(start_time string) []MergeRequest {
 	p.Set("target_branch", "master")
 	p.Set("updated_after", start_time)
 	get_mr := FormRequest(mr_api, p)
-	fmt.Println(get_mr)
+	// fmt.Println(get_mr)
 	json_str := utils.Get(get_mr)
 	return ParseMRs(json_str)
 }
