@@ -73,3 +73,39 @@ func ParseTags(json_str []byte) []Tag {
 	json.Unmarshal(json_str, &tags)
 	return tags
 }
+
+type IssueRqst struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Token string `json:"private_token"`
+
+	// ProjectId   int    `json:"project_id"`
+	// Id          int    `json:"id"`
+	// CreatedAt   string `json:"created_at"`
+	// UpdatedAt   string `json:"updated_at"`
+	// Type        string `json:"type"`
+	// Author      User   `json:"author"`
+	// ClosedAt    string `json:"closed_at"`
+	// ClosedBy    User   `json:"closed_by"`
+	// WebUrl      string `json:"web_url"`
+}
+
+type IssueResp struct {
+	ProjectId   int    `json:"project_id"`
+	Id          int    `json:"id"`
+	Title       string `json:"title"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+	Type        string `json:"type"`
+	Author      User   `json:"author"`
+	Description string `json:"description"`
+	ClosedAt    string `json:"closed_at"`
+	ClosedBy    User   `json:"closed_by"`
+	WebUrl      string `json:"web_url"`
+}
+
+func ParseIssueResp(json_str []byte) IssueResp {
+	var issue IssueResp
+	json.Unmarshal(json_str, &issue)
+	return issue
+}
