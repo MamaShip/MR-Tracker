@@ -120,7 +120,13 @@ func Post2Issue(changes string, s utils.UserSettings) error {
 	}
 
 	issue_api := g.String() + "/issues"
-	r := IssueRqst{Title: fmt.Sprintf("[MR Tracker] Changes of %s", s.EndTag), Description: changes, Token: g.Token}
+	r := IssueRqst{
+		Title: fmt.Sprintf("[MR Tracker] Changes between %s - %s",
+			s.StartTag,
+			s.EndTag),
+		Description: changes,
+		Token:       g.Token,
+	}
 	jsonData, err := json.Marshal(r)
 	if err != nil {
 		fmt.Println(err)
