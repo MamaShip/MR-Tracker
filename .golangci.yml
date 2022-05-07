@@ -1,0 +1,92 @@
+# 规则参见：https://golangci-lint.run/usage/configuration/
+linters:
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/#enabled-by-default-linters
+  # 打了 √ 的项目表示绝对有必要使用，只是暂时没启用的规则集
+  enable:
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - contextcheck
+    # - cyclop √
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    - durationcheck
+    - errcheck
+    # - errname √
+    # - errorlint √
+    # - exhaustive
+    # - exhaustivestruct
+    - exportloopref
+    # - forbidigo
+    - forcetypeassert
+    # - funlen √
+    # - gci
+    # - gochecknoglobals
+    # - gochecknoinits
+    # - gocognit √
+    - goconst
+    # - gocritic √
+    # - gocyclo √
+    # - godot
+    # - godox √
+    # - goerr113 √
+    - gofmt
+    # - gofumpt √
+    - goheader
+    - goimports
+    # - golint √
+    # - gomnd √
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    # - ifshort √
+    - importas
+    - ineffassign
+    # - interfacer - deprecated
+    # - ireturn
+    # - lll √
+    - makezero
+    # - maligned - deprecated
+    - misspell
+    - nakedret
+    # - nestif √
+    # - nilerr
+    - nilnil
+    # - nlreturn
+    - noctx
+    - nolintlint
+    # - paralleltest
+    - prealloc
+    - predeclared
+    - promlinter
+    # - revive √
+    - rowserrcheck
+    # - scopelint - deprecated
+    - sqlclosecheck
+    - staticcheck
+    - structcheck
+    # - stylecheck √
+    # - tagliatelle
+    - tenv
+    # - testpackage √
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    # - unparam √
+    - unused
+    - varcheck
+    # - varnamelen √
+    - wastedassign
+    - whitespace
+    # - wrapcheck √
+    # - wsl
+  # Enable all available linters.
+  # Default: false
+  # enable-all: true

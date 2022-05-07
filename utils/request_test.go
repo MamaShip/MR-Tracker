@@ -23,14 +23,13 @@ func TestForm(t *testing.T) {
 
 type PostIssue struct {
 	Title string `json:"title"`
-	Body string `json:"description"`
+	Body  string `json:"description"`
 	Token string `json:"private_token"`
 	// Id  int `json:"id"`
 }
 
 func TestPost(t *testing.T) {
-	issue_str :=`## Changes
-
+	issue_str := `
 - [!19](http://gitlab.qitantech.com/playground/projecta/-/merge_requests/19) Update .gitlab-ci.yml by Li Song
 - [!4](http://gitlab.qitantech.com/playground/projecta/-/merge_requests/4) 修改模板 by Li Song
 - [!3](http://gitlab.qitantech.com/playground/projecta/-/merge_requests/3) 测试 templates by Li Song

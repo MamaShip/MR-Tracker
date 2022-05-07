@@ -28,4 +28,3 @@ func NewCustomGitlab(host string, project_id int, token string) Gitlab {
 	instance.Token = token
 	return instance
 }
-

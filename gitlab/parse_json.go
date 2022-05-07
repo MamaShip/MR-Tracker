@@ -28,7 +28,10 @@ type MergeRequest struct {
 
 func ParseMRs(json_str []byte) []MergeRequest {
 	var mrs []MergeRequest
-	json.Unmarshal(json_str, &mrs)
+	err := json.Unmarshal(json_str, &mrs)
+	if err != nil {
+		panic(err)
+	}
 	return mrs
 }
 
@@ -44,7 +47,10 @@ type Branch struct {
 
 func ParseBranches(json_str string) []Branch {
 	var brs []Branch
-	json.Unmarshal([]byte(json_str), &brs)
+	err := json.Unmarshal([]byte(json_str), &brs)
+	if err != nil {
+		panic(err)
+	}
 	return brs
 }
 
@@ -70,24 +76,17 @@ type Commit struct {
 
 func ParseTags(json_str []byte) []Tag {
 	var tags []Tag
-	json.Unmarshal(json_str, &tags)
+	err := json.Unmarshal(json_str, &tags)
+	if err != nil {
+		panic(err)
+	}
 	return tags
 }
 
 type IssueRqst struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Token string `json:"private_token"`
-
-	// ProjectId   int    `json:"project_id"`
-	// Id          int    `json:"id"`
-	// CreatedAt   string `json:"created_at"`
-	// UpdatedAt   string `json:"updated_at"`
-	// Type        string `json:"type"`
-	// Author      User   `json:"author"`
-	// ClosedAt    string `json:"closed_at"`
-	// ClosedBy    User   `json:"closed_by"`
-	// WebUrl      string `json:"web_url"`
+	Token       string `json:"private_token"`
 }
 
 type IssueResp struct {
@@ -106,6 +105,9 @@ type IssueResp struct {
 
 func ParseIssueResp(json_str []byte) IssueResp {
 	var issue IssueResp
-	json.Unmarshal(json_str, &issue)
+	err := json.Unmarshal(json_str, &issue)
+	if err != nil {
+		panic(err)
+	}
 	return issue
 }
