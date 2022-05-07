@@ -1,16 +1,43 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/MamaShip/MR-Tracker/changelog"
 	"github.com/MamaShip/MR-Tracker/gitlab"
+	"github.com/MamaShip/MR-Tracker/utils"
 )
 
 func main() {
-	println("Start Tracking!")
-	mrs, err := gitlab.FindMRsBetween("v1.9.3", "v1.9.4")
+	// 解析命令行参数
+	flag.Parse()
+	utils.PrintVersion()
+	// 如果用户在查询版本号，显示完后就直接退出
+	if utils.UserRequestVerion {
+		return
+	}
+
+	// avoid invalid settings
+	err := utils.CheckSettings()
 	if err != nil {
 		println(err)
 		return
 	}
-	changelog.GenerateChanglog(mrs)
+
+	mrs, err := gitlab.FetchMrs(utils.Settings)
+	if err != nil {
+		println(err)
+		return
+	}
+	changes := changelog.GenerateChanglog(mrs)
+
+	if utils.Settings.PostIssue {
+		println(">> Posting changes to issue...")
+		if err := gitlab.Post2Issue(changes, utils.Settings); err != nil {
+			println(err)
+			return
+		} else {
+			println(">> Post issue successfully!")
+		}
+	}
 }

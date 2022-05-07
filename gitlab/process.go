@@ -1,16 +1,30 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
+	"strings"
 
 	"github.com/MamaShip/MR-Tracker/utils"
 )
 
-var token = "xxxxxxxxxxx"
+func isOfficialGitlab(url string) bool {
+	return strings.Contains(url, "gitlab.com")
+}
 
-func FindMRsBetween(start_tag string, end_tag string) ([]MergeRequest, error) {
-	g := NewCustomGitlab("gitlab.qitantech.com", token)
+func FetchMrs(s utils.UserSettings) ([]MergeRequest, error) {
+	var g Gitlab
+	if isOfficialGitlab(s.Site) {
+		g = NewGitlab(s.Project, s.Token)
+	} else {
+		g = NewCustomGitlab(s.Site, s.Project, s.Token)
+	}
+
+	return g.FindMRsBetween(s.StartTag, s.EndTag)
+}
+
+func (g *Gitlab) FindMRsBetween(start_tag string, end_tag string) ([]MergeRequest, error) {
 	tags := g.getTags()
 
 	start, err := findTag(tags, start_tag)
@@ -35,7 +49,7 @@ func (g *Gitlab) getTags() []Tag {
 	tag_api := g.String() + "/repository/tags"
 	p := url.Values{}
 	p.Set("private_token", g.Token)
-	get_tag := FormRequest(tag_api, p)
+	get_tag := utils.FormRequest(tag_api, p)
 	// fmt.Println(get_tag)
 	json_str := utils.Get(get_tag)
 	return ParseTags(json_str)
@@ -60,7 +74,7 @@ func (g *Gitlab) getMRsAfter(start_time string) []MergeRequest {
 	p.Set("scope", "all")
 	p.Set("target_branch", "master")
 	p.Set("updated_after", start_time)
-	get_mr := FormRequest(mr_api, p)
+	get_mr := utils.FormRequest(mr_api, p)
 	// fmt.Println(get_mr)
 	json_str := utils.Get(get_mr)
 	return ParseMRs(json_str)
@@ -95,4 +109,25 @@ func filterMRs(all_mr []MergeRequest, start Tag, end Tag) []MergeRequest {
 		}
 	}
 	return mrs
+}
+
+func Post2Issue(changes string, s utils.UserSettings) error {
+	var g Gitlab
+	if isOfficialGitlab(s.Site) {
+		g = NewGitlab(s.Project, s.Token)
+	} else {
+		g = NewCustomGitlab(s.Site, s.Project, s.Token)
+	}
+
+	issue_api := g.String() + "/issues"
+	r := IssueRqst{Title: fmt.Sprintf("[MR Tracker] Changes of %s", s.EndTag), Description: changes, Token: g.Token}
+	jsonData, err := json.Marshal(r)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	response := utils.Post(issue_api, jsonData)
+	result := ParseIssueResp(response)
+	fmt.Printf("Issue %d created: %s\n", result.Id, result.WebUrl)
+	return nil
 }
