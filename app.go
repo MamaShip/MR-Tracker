@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/MamaShip/MR-Tracker/changelog"
 	"github.com/MamaShip/MR-Tracker/gitlab"
@@ -20,13 +21,13 @@ func main() {
 	// avoid invalid settings
 	err := utils.CheckSettings()
 	if err != nil {
-		println(err)
+		fmt.Println(err)
 		return
 	}
 
 	mrs, err := gitlab.FetchMrs(utils.Settings)
 	if err != nil {
-		println(err)
+		fmt.Println(err)
 		return
 	}
 	changes := changelog.GenerateChanglog(mrs)
@@ -34,7 +35,7 @@ func main() {
 	if utils.Settings.PostIssue {
 		println(">> Posting changes to issue...")
 		if err := gitlab.Post2Issue(changes, utils.Settings); err != nil {
-			println(err)
+			fmt.Println(err)
 			return
 		} else {
 			println(">> Post issue successfully!")
