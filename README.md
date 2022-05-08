@@ -10,17 +10,19 @@ Currently only work for Gitlab MRs.
 
 ### Before
 
-This tool works on Gitlab APIs. Make sure your project visibility is **public**, or generate a `private-token` (see [Gitlab docs](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)) for your project.
+This tool works on Gitlab APIs. Make sure your gitlab project visibility is **public**, OR generate a `private-token` (see [Gitlab docs](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)) for your project.
 
+And the **project ID** is required for Gitlab APIs to work. You can find it from your project home page:
+![where to find project ID](images/project_id.png)
 ### Install
 
-Download the execution file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in yout `PATH`.
-
-Or if you have golang environment, install by command:
+If you have golang environment, install by command:
 
 ```
 go install github.com/MamaShip/MR-Tracker@latest
 ```
+
+Or you can download the execution file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in yout `PATH`.
 
 ### Run
 
