@@ -26,9 +26,11 @@ Or you can download the execution file from [release](https://github.com/MamaShi
 
 ### Run
 
-use `MR-Tracker -h` to see help document.
+Parameters `-project`、`-start` and `-end` are the minimum requirements to run the program.
 
-available options:
+Type `MR-Tracker -h` to see detail instructions.
+
+**Available options**:
 
 | options    | input type | description                                                |
 | ---------- | ---------- | ---------------------------------------------------------- |
@@ -41,3 +43,9 @@ available options:
 | `-start`   | string     | Set the tag where you want to compare difference from      |
 | `-end`     | string     | Set the tag where you want to compare difference to        |
 | `-post`    |            | If this flag is set, result will be posted as gitlab issue |
+
+example:
+
+```
+.\MR-Tracker -project 31285645 -start v1.0.0 -end v1.0.1
+```
