@@ -1,6 +1,7 @@
 # MR-Tracker
 [![Maintainability](https://api.codeclimate.com/v1/badges/f28b966f3baf7ab66a9d/maintainability)](https://codeclimate.com/github/MamaShip/MR-Tracker/maintainability)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/MamaShip/MR-Tracker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MamaShip/MR-Tracker/alerts/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/MamaShip/MR-Tracker.svg)](https://pkg.go.dev/github.com/MamaShip/MR-Tracker)
 
 Find changes between given versions by analyzing merge requests.
 
@@ -22,7 +23,7 @@ If you have golang environment, install by command:
 go install github.com/MamaShip/MR-Tracker@latest
 ```
 
-Or you can download the execution file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in yout `PATH`.
+Or you can download the execution file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in your `PATH`.
 
 ### Run
 
