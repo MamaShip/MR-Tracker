@@ -34,7 +34,7 @@ func init() {
 
 	flag.StringVar(&Settings.Site, "site", "gitlab.com", "Domain of your gitlab instance")
 	flag.IntVar(&Settings.Project, "project", 0, "Project ID")
-	flag.StringVar(&Settings.Branch, "branch", "master", "If you wanna track changes on other branches, set it by this option")
+	flag.StringVar(&Settings.Branch, "branch", "", "If you want to track changes other than default branch, set it by this option")
 	flag.StringVar(&Settings.Token, "token", "", "Gitlab API token for your project (see: https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html )")
 
 	// 替换默认的 Usage

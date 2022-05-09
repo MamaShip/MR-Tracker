@@ -45,9 +45,9 @@ type Branch struct {
 	Url       string `json:"web_url"`
 }
 
-func ParseBranches(json_str string) []Branch {
+func ParseBranches(json_str []byte) []Branch {
 	var brs []Branch
-	err := json.Unmarshal([]byte(json_str), &brs)
+	err := json.Unmarshal(json_str, &brs)
 	if err != nil {
 		panic(err)
 	}

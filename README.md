@@ -36,16 +36,16 @@ Type `MR-Tracker -h` to see detail instructions.
 | ---------- | ---------- | ---------------------------------------------------------- |
 | `-h`       |            | Print help info                                            |
 | `-v`       |            | Print version                                              |
-| `-site`    | string     | Set your Gitlab URL                                        |
+| `-site`    | string     | Set your Gitlab URL (default: `gitlab.com`)                |
 | `-project` | int        | Set your project ID                                        |
-| `-token`   | string     | Set your Gitlab API token for the project                 |
+| `-token`   | string     | Set your Gitlab API token for the project                  |
 | `-branch`  | string     | This tool automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option |
 | `-start`   | string     | Set the tag where you want to compare difference from      |
 | `-end`     | string     | Set the tag where you want to compare difference to        |
-| `-post`    |            | If this flag is set, result will be posted as gitlab issue |
+| `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> This function needs Gitlab API token |
 
 example:
 
 ```
-.\MR-Tracker -project 31285645 -start v1.0.0 -end v1.0.1
+MR-Tracker -site gitlab.com -project 31285645 -start v1.0.0 -end v1.0.1
 ```

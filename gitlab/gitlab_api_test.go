@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/MamaShip/MR-Tracker/utils"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewGitlab(t *testing.T) {
@@ -22,4 +23,11 @@ func TestAPI(t *testing.T) {
 	req := utils.FormRequest(API, p)
 	println(req)
 	println(string(utils.Get(req)))
+}
+
+func TestDefaultBranch(t *testing.T) {
+	g := NewCustomGitlab("gitlab.qitantech.com", 102, "")
+	br, err := g.getDefaultBranch()
+	assert.NoError(t, err)
+	assert.Equal(t, "master", br.Name)
 }
