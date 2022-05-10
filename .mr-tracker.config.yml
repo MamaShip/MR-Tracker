@@ -1,0 +1,7 @@
+site: gitlab.com
+project: 31285645 # project ID
+branch: master
+post: true
+token: xxxxxxxxxxx # replace by your own token
+start_tag: v1.0.0
+end_tag: v1.0.1

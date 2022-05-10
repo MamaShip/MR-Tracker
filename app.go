@@ -14,7 +14,7 @@ func main() {
 	flag.Parse()
 	utils.PrintVersion()
 	// 如果用户在查询版本号，显示完后就直接退出
-	if utils.UserRequestVerion {
+	if utils.RequestVersion {
 		return
 	}
 
