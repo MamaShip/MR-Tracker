@@ -23,7 +23,7 @@ If you have golang environment, install by command:
 go install github.com/MamaShip/MR-Tracker@latest
 ```
 
-Or you can download the execution file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in your `PATH`.
+Or you can download the executable file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in your `PATH` (or run it directly).
 
 ### Run
 

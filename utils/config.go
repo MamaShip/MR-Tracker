@@ -4,29 +4,48 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
-// 用户设定的 run time 参数
+// Settings from command line
 type UserSettings struct {
-	Site      string
-	Project   int
-	Branch    string
-	StartTag  string
-	EndTag    string
-	PostIssue bool
-	Token     string
+	Site      string `yaml:"site"`
+	Project   int    `yaml:"project"`
+	Branch    string `yaml:"branch"`
+	StartTag  string `yaml:"start_tag"`
+	EndTag    string `yaml:"end_tag"`
+	PostIssue bool   `yaml:"post_issue"`
+	Token     string `yaml:"token"`
+}
+
+const DefaultConfigFile = ".mr-tracker.yml"
+
+func LoadSettings() (UserSettings, error) {
+	if PathExists(DefaultConfigFile) {
+		var s UserSettings
+		raw := ReadFile(DefaultConfigFile)
+		err := yaml.Unmarshal(raw, &s)
+		if err != nil {
+			return UserSettings{}, err
+		}
+		return s, nil
+	} else {
+		fmt.Println("No config file found.")
+		return UserSettings{}, nil
+	}
 }
 
 var (
-	UserRequestVerion bool
-	Settings          UserSettings
+	RequestVersion bool
+	Settings       UserSettings
 )
 
 func init() {
-	// 注意相同的变量 UserRequestVerion 绑定了不同的参数，这是允许的
+	// 注意相同的变量 RequestVersion 绑定了不同的参数，这是允许的
 	// 但要确保它们的默认值完全一致，否则会有预期之外的错误
-	flag.BoolVar(&UserRequestVerion, "version", false, "the same as -v")
-	flag.BoolVar(&UserRequestVerion, "v", false, "Print version and exit")
+	flag.BoolVar(&RequestVersion, "version", false, "the same as -v")
+	flag.BoolVar(&RequestVersion, "v", false, "Print version and exit")
 
 	flag.StringVar(&Settings.StartTag, "start", "", "Set the tag to start analyze(commit excluded)")
 	flag.StringVar(&Settings.EndTag, "end", "", "Set the tag to end analyze(commit included)")
