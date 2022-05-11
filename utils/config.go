@@ -4,19 +4,20 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
 
 // Settings from command line
 type UserSettings struct {
-	Site      string `yaml:"site"`
-	Project   int    `yaml:"project"`
-	Branch    string `yaml:"branch"`
-	StartTag  string `yaml:"start_tag"`
-	EndTag    string `yaml:"end_tag"`
-	PostIssue bool   `yaml:"post_issue"`
-	Token     string `yaml:"token"`
+	Site      string `yaml:"site,omitempty"`
+	Project   int    `yaml:"project,omitempty"`
+	Branch    string `yaml:"branch,omitempty"`
+	StartTag  string `yaml:"start_tag,omitempty"`
+	EndTag    string `yaml:"end_tag,omitempty"`
+	PostIssue bool   `yaml:"post_issue,omitempty"`
+	Token     string `yaml:"token,omitempty"`
 }
 
 const DefaultConfigFile = ".mr-tracker.yml"
@@ -74,14 +75,21 @@ Options:
 
 // TODO
 func CheckSettings() error {
-	if Settings.Site == "" {
-		return fmt.Errorf("site is required. run MR-Tracker -h for more information")
-	}
+	missing := make([]string, 0)
+	// if Settings.Site == "" {
+	// 	missing = append(missing, "'site'")
+	// }
 	if Settings.Project == 0 {
-		return fmt.Errorf("project ID is required. run MR-Tracker -h for more information")
+		missing = append(missing, "'project ID'")
 	}
-	if Settings.StartTag == "" || Settings.EndTag == "" {
-		return fmt.Errorf("start & end tag is required. run MR-Tracker -h for more information")
+	if Settings.StartTag == "" {
+		missing = append(missing, "'start'")
+	}
+	if Settings.EndTag == "" {
+		missing = append(missing, "'end'")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("%s is required. run MR-Tracker -h for more information", strings.Join(missing, ", "))
 	}
 	if Settings.PostIssue && Settings.Token == "" {
 		return fmt.Errorf("token is required for posting issue. run MR-Tracker -h for more information")
