@@ -50,3 +50,7 @@ example:
 ```
 MR-Tracker -site gitlab.com -project 31285645 -start v1.0.0 -end v1.0.1
 ```
+
+## Inspired by
+- [https://github.com/github-changelog-generator/github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator)
+- [https://github.com/eirture/walle](https://github.com/eirture/walle)
