@@ -27,7 +27,7 @@ Or you can download the executable file from [release](https://github.com/MamaSh
 
 ### Run
 
-Parameters `-project`、`-start` and `-end` are the minimum requirements to run the program.
+Parameters `-project` is the minimum requirements to run the program.
 
 Type `MR-Tracker -h` to see detail instructions.
 
