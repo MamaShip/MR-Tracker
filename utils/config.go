@@ -82,12 +82,6 @@ func CheckSettings() error {
 	if Settings.Project == 0 {
 		missing = append(missing, "'project ID'")
 	}
-	if Settings.StartTag == "" {
-		missing = append(missing, "'start'")
-	}
-	if Settings.EndTag == "" {
-		missing = append(missing, "'end'")
-	}
 	if len(missing) > 0 {
 		return fmt.Errorf("%s is required. run MR-Tracker -h for more information", strings.Join(missing, ", "))
 	}

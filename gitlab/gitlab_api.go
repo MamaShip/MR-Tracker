@@ -30,25 +30,6 @@ func NewCustomGitlab(host string, project_id int, token string) Gitlab {
 	return instance
 }
 
-func (g *Gitlab) FindMRsBetween(start_tag string, end_tag string, br string) ([]MergeRequest, error) {
-	tags := g.getTags()
-
-	start, err := findTag(tags, start_tag)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	end, err := findTag(tags, end_tag)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	mrs := g.getMRsAfter(start.Commit.CreatedAt, br)
-	mrs = filterMRs(mrs, start, end)
-	return mrs, nil
-}
-
 func (g *Gitlab) getTags() []Tag {
 	tag_api := g.String() + "/repository/tags"
 	p := url.Values{}
@@ -73,6 +54,20 @@ func (g *Gitlab) getMRsAfter(start_time string, br string) []MergeRequest {
 	return ParseMRs(json_str)
 }
 
+func (g *Gitlab) getAllMRs(br string) []MergeRequest {
+	mr_api := g.String() + "/merge_requests"
+	p := url.Values{}
+	p.Set("private_token", g.Token)
+	p.Set("state", "merged")
+	p.Set("order_by", "updated_at")
+	p.Set("sort", "desc")
+	p.Set("scope", "all")
+	p.Set("target_branch", br)
+	get_mr := utils.FormRequest(mr_api, p)
+	json_str := utils.Get(get_mr)
+	return ParseMRs(json_str)
+}
+
 func (g *Gitlab) getBranches() []Branch {
 	mr_api := g.String() + "/repository/branches"
 	p := url.Values{}
@@ -92,33 +87,56 @@ func (g *Gitlab) getDefaultBranch() (Branch, error) {
 	return Branch{}, fmt.Errorf("no default branch found")
 }
 
-// 根据始末 tag 过滤 merge request。
-// 过滤结果剔除了 start tag 指向的 MR。包含了 end tag 指向的 MR。
-func filterMRs(all_mr []MergeRequest, start Tag, end Tag) []MergeRequest {
-	start_time, err := utils.ParseTime(start.Commit.CreatedAt)
+func (g *Gitlab) findTag(tag_name string) (Tag, error) {
+	tags := g.getTags()
+	for _, tag := range tags {
+		if tag.Name == tag_name {
+			return tag, nil
+		}
+	}
+	return Tag{}, fmt.Errorf("tag %s not found", tag_name)
+}
+
+func (g *Gitlab) FindMRsBetween(start_tag string, end_tag string, br string) ([]MergeRequest, error) {
+	start, err := g.findTag(start_tag)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return nil, err
 	}
-	end_time, err := utils.ParseTime(end.Commit.CreatedAt)
+	end, err := g.findTag(end_tag)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		return nil, err
 	}
-	mrs := make([]MergeRequest, 0, len(all_mr))
-	for _, mr := range all_mr {
-		merge_time, err := utils.ParseTime(mr.MergedAt)
+
+	mrs := g.getMRsAfter(start.Commit.CreatedAt, br)
+	mrs = keepMRsBetween(mrs, start, end)
+	return mrs, nil
+}
+
+func (g *Gitlab) FindMRsFromBeginning(br string) ([]MergeRequest, error) {
+	mrs := g.getAllMRs(br)
+	return mrs, nil
+}
+
+func (g *Gitlab) FindMRsDefault(start_tag string, end_tag string, br string) ([]MergeRequest, error) {
+	mrs, err := g.FindMRsFromBeginning(br)
+	if err != nil {
+		return nil, err
+	}
+	if end_tag != "" {
+		end, err := g.findTag(end_tag)
 		if err != nil {
-			fmt.Println(err)
-			return nil
+			return nil, err
 		}
-		if merge_time.After(start_time) && merge_time.Before(end_time) {
-			if mr.MergeCommit != start.Commit.Id {
-				mrs = append(mrs, mr)
-			}
-		} else if mr.MergeCommit == end.Commit.Id {
-			mrs = append(mrs, mr)
+		return keepMRsBefore(mrs, end), nil
+	} else if start_tag != "" {
+		start, err := g.findTag(start_tag)
+		if err != nil {
+			return nil, err
 		}
+		return keepMRsAfter(mrs, start), nil
+	} else {
+		return mrs, nil
 	}
-	return mrs
 }

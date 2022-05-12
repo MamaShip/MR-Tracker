@@ -27,16 +27,12 @@ func FetchMrs(s utils.UserSettings) ([]MergeRequest, error) {
 			s.Branch = branch.Name
 		}
 	}
-	return g.FindMRsBetween(s.StartTag, s.EndTag, s.Branch)
-}
 
-func findTag(tags []Tag, tag_name string) (Tag, error) {
-	for _, tag := range tags {
-		if tag.Name == tag_name {
-			return tag, nil
-		}
+	if s.StartTag == "" || s.EndTag == "" {
+		return g.FindMRsDefault(s.StartTag, s.EndTag, s.Branch)
+	} else {
+		return g.FindMRsBetween(s.StartTag, s.EndTag, s.Branch)
 	}
-	return Tag{}, fmt.Errorf("tag %s not found", tag_name)
 }
 
 func Post2Issue(changes string, s utils.UserSettings) error {
