@@ -34,9 +34,18 @@ func (g *Gitlab) getTags() []Tag {
 	tag_api := g.String() + "/repository/tags"
 	p := url.Values{}
 	p.Set("private_token", g.Token)
-	get_tag := utils.FormRequest(tag_api, p)
-	json_str := utils.Get(get_tag)
-	return ParseTags(json_str)
+	p.Set("per_page", "100")
+	tags := make([]Tag, 0)
+	total_page := 1
+	for i := 1; i <= total_page; i++ {
+		p.Set("page", fmt.Sprintf("%d", i))
+		get_tag := utils.FormRequest(tag_api, p)
+		var json_str []byte
+		json_str, total_page = utils.Get(get_tag)
+		paged_tags := ParseTags(json_str)
+		tags = append(tags, paged_tags...)
+	}
+	return tags
 }
 
 func (g *Gitlab) getMRsAfter(start_time string, br string) []MergeRequest {
@@ -49,9 +58,18 @@ func (g *Gitlab) getMRsAfter(start_time string, br string) []MergeRequest {
 	p.Set("scope", "all")
 	p.Set("target_branch", br)
 	p.Set("updated_after", start_time)
-	get_mr := utils.FormRequest(mr_api, p)
-	json_str := utils.Get(get_mr)
-	return ParseMRs(json_str)
+	p.Set("per_page", "100")
+	mrs := make([]MergeRequest, 0)
+	total_page := 1
+	for i := 1; i <= total_page; i++ {
+		p.Set("page", fmt.Sprintf("%d", i))
+		get_mr := utils.FormRequest(mr_api, p)
+		var json_str []byte
+		json_str, total_page = utils.Get(get_mr)
+		paged_mrs := ParseMRs(json_str)
+		mrs = append(mrs, paged_mrs...)
+	}
+	return mrs
 }
 
 func (g *Gitlab) getAllMRs(br string) []MergeRequest {
@@ -63,18 +81,36 @@ func (g *Gitlab) getAllMRs(br string) []MergeRequest {
 	p.Set("sort", "desc")
 	p.Set("scope", "all")
 	p.Set("target_branch", br)
-	get_mr := utils.FormRequest(mr_api, p)
-	json_str := utils.Get(get_mr)
-	return ParseMRs(json_str)
+	p.Set("per_page", "100")
+	mrs := make([]MergeRequest, 0)
+	total_page := 1
+	for i := 1; i <= total_page; i++ {
+		p.Set("page", fmt.Sprintf("%d", i))
+		get_mr := utils.FormRequest(mr_api, p)
+		var json_str []byte
+		json_str, total_page = utils.Get(get_mr)
+		paged_mrs := ParseMRs(json_str)
+		mrs = append(mrs, paged_mrs...)
+	}
+	return mrs
 }
 
 func (g *Gitlab) getBranches() []Branch {
-	mr_api := g.String() + "/repository/branches"
+	br_api := g.String() + "/repository/branches"
 	p := url.Values{}
 	p.Set("private_token", g.Token) // token is not necessary for public repo
-	get_mr := utils.FormRequest(mr_api, p)
-	json_str := utils.Get(get_mr)
-	return ParseBranches(json_str)
+	p.Set("per_page", "100")
+	brs := make([]Branch, 0)
+	total_page := 1
+	for i := 1; i <= total_page; i++ {
+		p.Set("page", fmt.Sprintf("%d", i))
+		get_br := utils.FormRequest(br_api, p)
+		var json_str []byte
+		json_str, total_page = utils.Get(get_br)
+		paged_brs := ParseBranches(json_str)
+		brs = append(brs, paged_brs...)
+	}
+	return brs
 }
 
 func (g *Gitlab) getDefaultBranch() (Branch, error) {

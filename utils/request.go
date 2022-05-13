@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 func FormRequest(url string, params url.Values) string {
@@ -16,7 +17,7 @@ func FormRequest(url string, params url.Values) string {
 	return req
 }
 
-func Get(url string) []byte {
+func Get(url string) ([]byte, int) {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
@@ -30,7 +31,13 @@ func Get(url string) []byte {
 	if resp.StatusCode > 299 {
 		log.Fatalf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
 	}
-	return body
+	xtotal := resp.Header["X-Total-Pages"]
+	if len(xtotal) > 0 {
+		total_page, _ := strconv.Atoi(xtotal[0])
+		return body, total_page
+	} else {
+		return body, 1
+	}
 }
 
 func Post(url string, jsonData []byte) []byte {
