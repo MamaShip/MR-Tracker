@@ -22,7 +22,8 @@ func TestAPI(t *testing.T) {
 
 	req := utils.FormRequest(API, p)
 	println(req)
-	println(string(utils.Get(req)))
+	resp, _ := utils.Get(req)
+	println(string(resp))
 }
 
 func TestDefaultBranch(t *testing.T) {
@@ -30,4 +31,13 @@ func TestDefaultBranch(t *testing.T) {
 	br, err := g.getDefaultBranch()
 	assert.NoError(t, err)
 	assert.Equal(t, "master", br.Name)
+}
+
+func TestGetAllMRs(t *testing.T) {
+	g := NewCustomGitlab("gitlab.qitantech.com", 102, "")
+	mrs := g.getAllMRs("master")
+	for _, mr := range mrs {
+		println(mr.Title)
+	}
+	println(len(mrs))
 }
