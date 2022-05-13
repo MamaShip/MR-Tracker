@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	version   = "v0.0.2"
+	version   = "v0.1.0"
 	commit_id string
 	buildTime string
 	osArch    string
