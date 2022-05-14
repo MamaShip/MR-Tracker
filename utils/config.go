@@ -18,6 +18,8 @@ type UserSettings struct {
 	EndTag    string `yaml:"end_tag,omitempty"`
 	PostIssue bool   `yaml:"post_issue,omitempty"`
 	Token     string `yaml:"token,omitempty"`
+	Output    string `yaml:"output,omitempty"`
+	Simplify  bool   `yaml:"simplify,omitempty"`
 }
 
 const DefaultConfigFile = ".mr-tracker.yml"
@@ -51,6 +53,8 @@ func init() {
 	flag.StringVar(&Settings.StartTag, "start", "", "Set the tag to start analyze(commit excluded)")
 	flag.StringVar(&Settings.EndTag, "end", "", "Set the tag to end analyze(commit included)")
 	flag.BoolVar(&Settings.PostIssue, "post", false, "Post the result to gitlab issue")
+	flag.StringVar(&Settings.Output, "output", "", "Set the output file")
+	flag.BoolVar(&Settings.Simplify, "simple", false, "Simplify the output")
 
 	flag.StringVar(&Settings.Site, "site", "gitlab.com", "Domain of your gitlab instance")
 	flag.IntVar(&Settings.Project, "project", 0, "Project ID")

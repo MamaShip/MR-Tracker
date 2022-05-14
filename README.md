@@ -27,30 +27,38 @@ Or you can download the executable file from [release](https://github.com/MamaSh
 
 ### Run
 
-Parameters `-project` is the minimum requirements to run the program.
+The `project ID` must be set by `-project` flag for program to run.
 
 Type `MR-Tracker -h` to see detail instructions.
 
-**Available options**:
+**Basic options**:
 
 | options    | input type | description                                                |
 | ---------- | ---------- | ---------------------------------------------------------- |
 | `-h`       |            | Print help info                                            |
 | `-v`       |            | Print version                                              |
-| `-site`    | string     | Set your Gitlab URL (default: `gitlab.com`)                |
 | `-project` | int        | Set your project ID                                        |
-| `-token`   | string     | Set your Gitlab API token for the project                  |
-| `-branch`  | string     | This tool automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option |
-| `-start`   | string     | Set the tag where you want to compare difference from      |
-| `-end`     | string     | Set the tag where you want to compare difference to        |
-| `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> This function needs Gitlab API token |
+| `-site`    | string     | Set your Gitlab URL (default: `gitlab.com`)                |
+| `-start`   | string     | Set the tag to start analyze                               |
+| `-end`     | string     | Set the tag to stop analyze                                |
+| `-output`  | string     | Set the output file to save the changes in markdown format |
+| `-simple`  |            | If this flag is set, the markdown output will be simplified |
 
 example:
 
 ```
-MR-Tracker -site gitlab.com -project 31285645 -start v1.0.0 -end v1.0.1
+MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.2-ee -output changes.md
 ```
 
+**Additional options**:
+
+| options    | input type | description                                                |
+| ---------- | ---------- | ---------------------------------------------------------- |
+| `-token`   | string     | Set your Gitlab API token for the project.<br /> This is essential for non-public repos  |
+| `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> The Gitlab API token is needed for authentication |
+| `-branch`  | string     | This tool automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option |
+
 ## Inspired by
+
 - [https://github.com/github-changelog-generator/github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator)
 - [https://github.com/eirture/walle](https://github.com/eirture/walle)
