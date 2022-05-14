@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -22,4 +23,15 @@ func PathExists(path string) bool {
 		panic(err)
 	}
 	return true
+}
+
+func Write2File(changes string, file string) error {
+	output_file, err := os.Create(file)
+	if err != nil {
+		fmt.Println("failed to open outpout file:", output_file, err)
+		return err
+	}
+	defer output_file.Close()
+	_, err = output_file.WriteString(changes)
+	return err
 }

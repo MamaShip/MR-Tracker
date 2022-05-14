@@ -10,10 +10,10 @@ import (
 )
 
 func main() {
-	// 解析命令行参数
+	// parse command line arguments
 	flag.Parse()
+	// if `-v`, print version and exit
 	utils.PrintVersion()
-	// 如果用户在查询版本号，显示完后就直接退出
 	if utils.RequestVersion {
 		return
 	}
@@ -30,7 +30,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	changes := changelog.GenerateChanglog(mrs)
+
+	var changes string
+	if utils.Settings.Simplify {
+		changes = changelog.GenerateSimpleVer(mrs)
+	} else {
+		changes = changelog.GenerateFullVer(mrs)
+	}
 
 	if utils.Settings.PostIssue {
 		println(">> Posting changes to issue...")
@@ -39,6 +45,14 @@ func main() {
 			return
 		} else {
 			println(">> Post issue successfully!")
+		}
+	}
+
+	if utils.Settings.Output != "" {
+		err := utils.Write2File(changes, utils.Settings.Output)
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
 	}
 }
