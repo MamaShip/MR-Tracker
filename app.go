@@ -41,8 +41,7 @@ func main() {
 	if utils.Settings.PostIssue {
 		println(">> Posting changes to issue...")
 		if err := gitlab.Post2Issue(changes, utils.Settings); err != nil {
-			fmt.Println(err)
-			return
+			fmt.Println(err, " Fail to post issue")
 		} else {
 			println(">> Post issue successfully!")
 		}
@@ -51,8 +50,7 @@ func main() {
 	if utils.Settings.Output != "" {
 		err := utils.Write2File(changes, utils.Settings.Output)
 		if err != nil {
-			fmt.Println(err)
-			return
+			fmt.Println(err, " Fail to write file")
 		}
 	}
 }

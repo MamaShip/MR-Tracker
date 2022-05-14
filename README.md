@@ -47,7 +47,7 @@ Type `MR-Tracker -h` to see detail instructions.
 example:
 
 ```
-MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.2-ee -output changes.md
+MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.md
 ```
 
 **Additional options**:
