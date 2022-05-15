@@ -13,7 +13,7 @@ Currently only work for Gitlab MRs.
 
 This tool works on Gitlab APIs. Make sure your gitlab project visibility is **public**, OR generate a `private-token` (see [Gitlab docs](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html)) for your project.
 
-And the **project ID** is required for Gitlab APIs to work. You can find it from your project home page:
+The **project ID** is required for Gitlab APIs to work. You can find it from your project home page:
 ![where to find project ID](images/project_id.png)
 ### Install
 

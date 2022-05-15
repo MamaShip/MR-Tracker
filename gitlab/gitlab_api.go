@@ -135,15 +135,16 @@ func (g *Gitlab) findTag(tag_name string) (Tag, error) {
 
 func (g *Gitlab) getStartEndTag(start string, end string) (Tag, Tag, error) {
 	var start_tag, end_tag Tag
+	var err error
 	if start != "" {
-		start_tag, err := g.findTag(start)
+		start_tag, err = g.findTag(start)
 		if err != nil {
 			fmt.Println(err)
 			return start_tag, end_tag, err
 		}
 	}
 	if end != "" {
-		end_tag, err := g.findTag(end)
+		end_tag, err = g.findTag(end)
 		if err != nil {
 			fmt.Println(err)
 			return start_tag, end_tag, err
