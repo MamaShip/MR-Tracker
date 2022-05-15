@@ -28,11 +28,7 @@ func FetchMrs(s utils.UserSettings) ([]MergeRequest, error) {
 		}
 	}
 
-	if s.StartTag == "" || s.EndTag == "" {
-		return g.FindMRsDefault(s.StartTag, s.EndTag, s.Branch)
-	} else {
-		return g.FindMRsBetween(s.StartTag, s.EndTag, s.Branch)
-	}
+	return g.FindMRsBetween(s.StartTag, s.EndTag, s.Branch)
 }
 
 func Post2Issue(changes string, s utils.UserSettings) error {

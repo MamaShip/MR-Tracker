@@ -133,46 +133,37 @@ func (g *Gitlab) findTag(tag_name string) (Tag, error) {
 	return Tag{}, fmt.Errorf("tag %s not found", tag_name)
 }
 
-func (g *Gitlab) FindMRsBetween(start_tag string, end_tag string, br string) ([]MergeRequest, error) {
-	start, err := g.findTag(start_tag)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+func (g *Gitlab) getStartEndTag(start string, end string) (Tag, Tag, error) {
+	var start_tag, end_tag Tag
+	if start != "" {
+		start_tag, err := g.findTag(start)
+		if err != nil {
+			fmt.Println(err)
+			return start_tag, end_tag, err
+		}
 	}
-	end, err := g.findTag(end_tag)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	if end != "" {
+		end_tag, err := g.findTag(end)
+		if err != nil {
+			fmt.Println(err)
+			return start_tag, end_tag, err
+		}
 	}
-
-	mrs := g.getMRsAfter(start.Commit.CreatedAt, br)
-	mrs = keepMRsBetween(mrs, start, end)
-	return mrs, nil
+	return start_tag, end_tag, nil
 }
 
-func (g *Gitlab) FindMRsFromBeginning(br string) ([]MergeRequest, error) {
-	mrs := g.getAllMRs(br)
-	return mrs, nil
-}
-
-func (g *Gitlab) FindMRsDefault(start_tag string, end_tag string, br string) ([]MergeRequest, error) {
-	mrs, err := g.FindMRsFromBeginning(br)
+func (g *Gitlab) FindMRsBetween(start string, end string, br string) ([]MergeRequest, error) {
+	start_tag, end_tag, err := g.getStartEndTag(start, end)
 	if err != nil {
 		return nil, err
 	}
-	if end_tag != "" {
-		end, err := g.findTag(end_tag)
-		if err != nil {
-			return nil, err
-		}
-		return keepMRsBefore(mrs, end), nil
-	} else if start_tag != "" {
-		start, err := g.findTag(start_tag)
-		if err != nil {
-			return nil, err
-		}
-		return keepMRsAfter(mrs, start), nil
+
+	var mrs []MergeRequest
+	if start_tag.Name != "" {
+		mrs = g.getMRsAfter(start_tag.Commit.CreatedAt, br)
 	} else {
-		return mrs, nil
+		mrs = g.getAllMRs(br)
 	}
+	mrs = keepMRsBetween(mrs, start_tag, end_tag)
+	return mrs, nil
 }
