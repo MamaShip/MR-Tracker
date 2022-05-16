@@ -48,9 +48,15 @@ func main() {
 	}
 
 	if utils.Settings.Output != "" {
-		err := utils.Write2File(changes, utils.Settings.Output)
-		if err != nil {
-			fmt.Println(err, " Fail to write file")
-		}
+		output2File(changes, utils.Settings)
+	}
+}
+
+func output2File(changes string, s utils.UserSettings) {
+	title := utils.GenerateTitle(s.StartTag, s.EndTag)
+	text := "# " + title + "\n\n" + changes
+	err := utils.Write2File(text, s.Output)
+	if err != nil {
+		fmt.Println(err, " Fail to write file")
 	}
 }

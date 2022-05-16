@@ -52,7 +52,7 @@ func keepMRsBetween(all_mr []MergeRequest, start Tag, end Tag) []MergeRequest {
 		if mr.MergedAt == "" {
 			continue
 		}
-		if belongToRange(&mr, &config) {
+		if mr.belongToRange(&config) {
 			mrs = append(mrs, mr)
 		}
 	}
@@ -60,7 +60,7 @@ func keepMRsBetween(all_mr []MergeRequest, start Tag, end Tag) []MergeRequest {
 }
 
 // 过滤结果剔除了 start tag 指向的 MR。包含了 end tag 指向的 MR。
-func belongToRange(mr *MergeRequest, c *configBothEnds) bool {
+func (mr *MergeRequest) belongToRange(c *configBothEnds) bool {
 	if mr.MergeCommit == c.end_tag.Commit.Id {
 		return true
 	}

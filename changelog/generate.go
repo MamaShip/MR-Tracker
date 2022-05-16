@@ -10,6 +10,7 @@ import (
 
 func GenerateFullVer(mrs []gitlab.MergeRequest) string {
 	if len(mrs) == 0 {
+		fmt.Println(">> No changes found!")
 		return ""
 	}
 	fmt.Println(">> Found changes:")
@@ -32,6 +33,7 @@ func GenerateFullVer(mrs []gitlab.MergeRequest) string {
 
 func GenerateSimpleVer(mrs []gitlab.MergeRequest) string {
 	if len(mrs) == 0 {
+		fmt.Println(">> No changes found!")
 		return ""
 	}
 	fmt.Println(">> Found changes:")

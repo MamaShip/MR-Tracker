@@ -32,6 +32,10 @@ func FetchMrs(s utils.UserSettings) ([]MergeRequest, error) {
 }
 
 func Post2Issue(changes string, s utils.UserSettings) error {
+	if changes == "" {
+		fmt.Println("Nothing to post")
+		return nil
+	}
 	var g Gitlab
 	if isOfficialGitlab(s.Site) {
 		g = NewGitlab(s.Project, s.Token)
@@ -41,9 +45,7 @@ func Post2Issue(changes string, s utils.UserSettings) error {
 
 	issue_api := g.String() + "/issues"
 	r := IssueRqst{
-		Title: fmt.Sprintf("[MR Tracker] Changes between %s - %s",
-			s.StartTag,
-			s.EndTag),
+		Title:       utils.GenerateTitle(s.StartTag, s.EndTag),
 		Description: changes,
 		Token:       g.Token,
 	}
