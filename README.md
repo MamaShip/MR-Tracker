@@ -5,7 +5,7 @@
 
 Find changes between given versions by analyzing merge requests.
 
-Currently only work for Gitlab MRs.
+Only work for Gitlab MRs.
 
 ## Usage
 
@@ -54,9 +54,15 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 
 | options    | input type | description                                                |
 | ---------- | ---------- | ---------------------------------------------------------- |
-| `-token`   | string     | Set your Gitlab API token for the project.<br /> This is essential for non-public repos  |
-| `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> The Gitlab API token is needed for authentication |
-| `-branch`  | string     | This tool automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option |
+| `-token`*   | string     | Set your Gitlab API token for the project.<br /> This is essential for non-public repos. |
+| `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> The Gitlab API token is needed for authentication. |
+| `-branch`  | string     | MR-Tracker automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option. |
+
+*You can use environment variables to set the private token:
+```
+export MR_TRACKER_TOKEN=XXXXXXXX
+```
+MR-Tracker will read `MR_TRACKER_TOKEN` from `ENV` if available.
 
 ## Inspired by
 

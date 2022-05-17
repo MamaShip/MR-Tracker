@@ -72,7 +72,11 @@ Usage:
 	MR-Tracker -h
 	MR-Tracker -site YOUR_GITLAB_DOMAIN -project YOUR_PROJECT_ID -token GITLAB_API_TOKEN -start v1.0.0 -end v1.0.1 -post
 
-Options:
+	You can use environment variables to set the private token:
+		export MR_TRACKER_TOKEN=XXXXXXXX
+	Its value will be restored automatically.
+
+	Options:
 `, version)
 	flag.PrintDefaults()
 }
@@ -88,6 +92,12 @@ func CheckSettings() error {
 	}
 	if len(missing) > 0 {
 		return fmt.Errorf("%s is required. run MR-Tracker -h for more information", strings.Join(missing, ", "))
+	}
+	if Settings.Token == "" {
+		token, exist := os.LookupEnv("MR_TRACKER_TOKEN")
+		if exist {
+			Settings.Token = token
+		}
 	}
 	if Settings.PostIssue && Settings.Token == "" {
 		return fmt.Errorf("token is required for posting issue. run MR-Tracker -h for more information")
