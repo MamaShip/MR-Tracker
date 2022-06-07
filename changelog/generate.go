@@ -18,13 +18,13 @@ func GenerateFullVer(mrs []gitlab.MergeRequest) string {
 	for _, mr := range mrs {
 		fmt.Printf("- [!%d] %s by %s\n", mr.IId, mr.Title, mr.Author.Name)
 		merge_time, _ := utils.ParseTime(mr.MergedAt)
-		line := fmt.Sprintf("- [!%d](%s) %s -- [%s by [%s](%s)]",
+		line := fmt.Sprintf("- [!%d](%s) **%s** - [%s](%s) %s",
 			mr.IId,
 			mr.MergeUrl,
 			mr.Title,
-			merge_time.Format("01-02"),
 			mr.Author.Name,
-			mr.Author.Url)
+			mr.Author.Url,
+			merge_time.Format("01-02"))
 		lines = append(lines, line)
 	}
 	output := strings.Join(lines, "\n")
