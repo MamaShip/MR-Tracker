@@ -18,6 +18,9 @@ jobs:
           - goarch: arm64
             goos: windows
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
       - uses: actions/checkout@v3
       - uses: wangyoucao577/go-release-action@v1.30
         with:
@@ -25,5 +28,6 @@ jobs:
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
           goversion: 1.18 # 可以指定编译使用的 Golang 版本
+          ldflags: "-X 'github.com/MamaShip/MR-Tracker/utils.commit_id=${{ github.sha }}' -X 'github.com/MamaShip/MR-Tracker/utils.buildTime=${{ steps.date.outputs.date }}'"
           binary_name: "MR-Tracker" # 可以指定二进制文件的名称
           extra_files: LICENSE README.md # 需要包含的额外文件
