@@ -14,7 +14,7 @@ func TestNewGitlab(t *testing.T) {
 }
 
 func TestAPI(t *testing.T) {
-	g := NewCustomGitlab("gitlab.qitantech.com", 102, "VhnrgrMbb51t9P3c3ZtG")
+	g := NewCustomGitlab("gitlab.com", 31285645, "")
 	API := g.String() + "/merge_requests"
 	p := url.Values{}
 	p.Set("state", "merged")
@@ -27,14 +27,14 @@ func TestAPI(t *testing.T) {
 }
 
 func TestDefaultBranch(t *testing.T) {
-	g := NewCustomGitlab("gitlab.qitantech.com", 102, "")
+	g := NewCustomGitlab("gitlab.com", 31285645, "")
 	br, err := g.getDefaultBranch()
 	assert.NoError(t, err)
 	assert.Equal(t, "master", br.Name)
 }
 
 func TestGetAllMRs(t *testing.T) {
-	g := NewCustomGitlab("gitlab.qitantech.com", 102, "")
+	g := NewCustomGitlab("gitlab.com", 31285645, "")
 	mrs := g.getAllMRs("master")
 	for _, mr := range mrs {
 		println(mr.Title)
