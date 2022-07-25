@@ -1,5 +1,5 @@
-site: gitlab.com
-project: 31285645 # project ID
+site: gitlab.com # maybe different for your instance
+project: 31285645 # replace by your own project ID
 branch: master
 post: true
 token: xxxxxxxxxxx # replace by your own token

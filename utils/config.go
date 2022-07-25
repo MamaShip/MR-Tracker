@@ -22,7 +22,7 @@ type UserSettings struct {
 	Simplify  bool   `yaml:"simplify,omitempty"`
 }
 
-const DefaultConfigFile = ".mr-tracker.yml"
+const DefaultConfigFile = ".mr-tracker.config.yml"
 
 func LoadSettings() (UserSettings, error) {
 	if PathExists(DefaultConfigFile) {

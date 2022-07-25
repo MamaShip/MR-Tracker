@@ -14,7 +14,7 @@ func TestSaveSettings(t *testing.T) {
 	s.Site = "gitlab.com"
 	s.Branch = "master"
 	s.Project = 102
-	s.Token = "VhnrgrMbb51t9P3c3ZtG"
+	s.Token = "xxxxxxxxxxxxxxxxx"
 	s.PostIssue = true
 	s.StartTag = "v3.0.1"
 	s.EndTag = "v3.0.2"
@@ -26,5 +26,5 @@ func TestSaveSettings(t *testing.T) {
 func TestLoadSettings(t *testing.T) {
 	s, err := utils.LoadSettings()
 	assert.Nil(t, err)
-	fmt.Printf("%+v", s)
+	fmt.Printf("%+v\n", s)
 }
