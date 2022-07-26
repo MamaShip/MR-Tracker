@@ -25,4 +25,3 @@ type PostIssue struct {
 	Token string `json:"private_token"`
 	// Id  int `json:"id"`
 }
-
