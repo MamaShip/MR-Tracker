@@ -20,7 +20,7 @@ type UserSettings struct {
 	Token     string `yaml:"token,omitempty"`
 	Output    string `yaml:"output,omitempty"`
 	Simplify  bool   `yaml:"simplify,omitempty"`
-	Latest    string   `yaml:"latest,omitempty"`
+	Latest    string `yaml:"latest,omitempty"`
 }
 
 const DefaultConfigFile = ".mr-tracker.config.yml"
