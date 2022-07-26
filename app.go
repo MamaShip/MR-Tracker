@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"github.com/MamaShip/MR-Tracker/changelog"
 	"github.com/MamaShip/MR-Tracker/gitlab"
@@ -21,8 +22,15 @@ func main() {
 	// avoid invalid settings
 	err := utils.CheckSettings()
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
+	}
+
+	if utils.Settings.Latest != "" {
+		start, end := gitlab.GetLatestTag(utils.Settings)
+		if start == "" && end == "" {
+			log.Fatal("'-latest' enabled but no valid tag found!")
+		}
+		utils.Settings.StartTag, utils.Settings.EndTag = start, end
 	}
 
 	mrs, err := gitlab.FetchMrs(utils.Settings)

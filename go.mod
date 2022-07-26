@@ -3,6 +3,7 @@ module github.com/MamaShip/MR-Tracker
 go 1.17
 
 require (
+	github.com/blang/semver/v4 v4.0.0
 	github.com/stretchr/testify v1.7.1
 	gopkg.in/yaml.v2 v2.4.0
 )

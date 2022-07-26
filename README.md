@@ -15,7 +15,27 @@ This tool works on Gitlab APIs. Make sure your gitlab project visibility is **pu
 
 The **project ID** is required for Gitlab APIs to work. You can find it from your project home page:
 ![where to find project ID](images/project_id.png)
-### Install
+
+### Using MR-Tracker in CI Pipeline
+
+It is recommended to use **docker image([mr-tracker](https://hub.docker.com/r/mamaship/mr-tracker))** in CI Pipeline to automatically generate changelog in your workflow.
+
+Docker image `mamaship/mr-tracker:latest` makes the command `MR-Tracker` available for CI jobs.
+
+`.gitlab-ci.yml` Example: 
+
+```
+gen-changelog:
+  image: mamaship/mr-tracker:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - MR-Tracker -site YOUR_GITLAB_DOMAIN -project YOUR_PROJECT_ID -token YOUR_TOKEN -latest $CI_COMMIT_TAG -post
+```
+
+### CLI
+
+#### Install
 
 If you have golang environment, install by command:
 
@@ -25,7 +45,7 @@ go install github.com/MamaShip/MR-Tracker@latest
 
 Or you can download the executable file from [release](https://github.com/MamaShip/MR-Tracker/releases) page. And put it in your `PATH` (or run it directly).
 
-### Run
+#### Run
 
 The `project ID` must be set by `-project` flag for program to run.
 
@@ -56,6 +76,7 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 | ---------- | ---------- | ---------------------------------------------------------- |
 | `-token`*   | string     | Set your Gitlab API token for the project.<br /> This is essential for non-public repos. |
 | `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> The Gitlab API token is needed for authentication. |
+| `-latest`    | string | Given a version tag, changes of latest [Semantic Version](https://semver.org/) will be analyzed.(ignoring pre-release & build identifier) |
 | `-branch`  | string     | MR-Tracker automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option. |
 
 *You can use environment variables to set the private token:

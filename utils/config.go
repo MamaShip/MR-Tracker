@@ -20,6 +20,7 @@ type UserSettings struct {
 	Token     string `yaml:"token,omitempty"`
 	Output    string `yaml:"output,omitempty"`
 	Simplify  bool   `yaml:"simplify,omitempty"`
+	Latest    string   `yaml:"latest,omitempty"`
 }
 
 const DefaultConfigFile = ".mr-tracker.config.yml"
@@ -61,6 +62,7 @@ func init() {
 	flag.StringVar(&Settings.Branch, "branch", "", "If you want to track changes other than default branch, set it by this option")
 	flag.StringVar(&Settings.Token, "token", "", "Gitlab API token for your project (see: https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html )")
 
+	flag.StringVar(&Settings.Latest, "latest", "", "Given a version tag, changes of latest Semantic Version will be analyzed.(ignoring pre-release & build identifier)")
 	// 替换默认的 Usage
 	flag.Usage = usage
 }
@@ -101,6 +103,9 @@ func CheckSettings() error {
 	}
 	if Settings.PostIssue && Settings.Token == "" {
 		return fmt.Errorf("token is required for posting issue. run MR-Tracker -h for more information")
+	}
+	if (Settings.Latest != "") && (Settings.StartTag != "" || Settings.EndTag != "") {
+		return fmt.Errorf("'-latest' forbids '-start' '-end'")
 	}
 	return nil
 }
