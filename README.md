@@ -1,4 +1,7 @@
 # MR-Tracker
+
+English | [中文](README.md)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/f28b966f3baf7ab66a9d/maintainability)](https://codeclimate.com/github/MamaShip/MR-Tracker/maintainability)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/MamaShip/MR-Tracker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MamaShip/MR-Tracker/alerts/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/MamaShip/MR-Tracker.svg)](https://pkg.go.dev/github.com/MamaShip/MR-Tracker)
@@ -79,7 +82,7 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 | `-latest`    | string | Given a version tag, changes of latest [Semantic Version](https://semver.org/) will be analyzed.(ignoring pre-release & build identifier) |
 | `-branch`  | string     | MR-Tracker automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option. |
 
-*You can use environment variables to set the private token:
+*You can use environment variables to store the private token:
 ```
 export MR_TRACKER_TOKEN=XXXXXXXX
 ```
