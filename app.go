@@ -49,7 +49,7 @@ func main() {
 	if utils.Settings.PostIssue {
 		println(">> Posting changes to issue...")
 		if err := gitlab.Post2Issue(changes, utils.Settings); err != nil {
-			fmt.Println(err, " Fail to post issue")
+			log.Fatal(err, " Fail to post issue")
 		} else {
 			println(">> Post issue successfully!")
 		}

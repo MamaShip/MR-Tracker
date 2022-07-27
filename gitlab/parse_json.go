@@ -87,27 +87,39 @@ type IssueRqst struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Token       string `json:"private_token"`
+	StateEvent  string `json:"state_event,omitempty"`
 }
 
-type IssueResp struct {
+type Issue struct {
 	ProjectId   int    `json:"project_id"`
 	Id          int    `json:"id"`
+	Iid         int    `json:"iid"`
 	Title       string `json:"title"`
 	CreatedAt   string `json:"created_at"`
 	UpdatedAt   string `json:"updated_at"`
 	Type        string `json:"type"`
 	Author      User   `json:"author"`
 	Description string `json:"description"`
+	State       string `json:"state"`
 	ClosedAt    string `json:"closed_at"`
 	ClosedBy    User   `json:"closed_by"`
 	WebUrl      string `json:"web_url"`
 }
 
-func ParseIssueResp(json_str []byte) IssueResp {
-	var issue IssueResp
+func ParseIssue(json_str []byte) Issue {
+	var issue Issue
 	err := json.Unmarshal(json_str, &issue)
 	if err != nil {
 		panic(err)
 	}
 	return issue
+}
+
+func ParseIssueList(json_str []byte) []Issue {
+	var issues []Issue
+	err := json.Unmarshal(json_str, &issues)
+	if err != nil {
+		panic(err)
+	}
+	return issues
 }

@@ -46,7 +46,7 @@ gen-changelog:
 go install github.com/MamaShip/MR-Tracker@latest
 ```
 
-或者你可以从 [Release](https://github.com/MamaShip/MR-Tracker/releases) 页面下载对应平台的可执行文件，把它放到你的`PATH` 路径下（或者直接运行它）。
+或者从 [Release](https://github.com/MamaShip/MR-Tracker/releases) 页面下载对应平台的可执行文件，把它放到你的`PATH` 路径下（或者直接运行它）。
 
 #### 运行
 
@@ -62,8 +62,8 @@ go install github.com/MamaShip/MR-Tracker@latest
 | `-v`       |            | 打印版本号                                              |
 | `-project` | int        | 设置 Project ID                                        |
 | `-site`    | string     | 设置 Gitlab 域名 (默认值: `gitlab.com`)                |
-| `-start`   | string     | 设置分析的开始范围（tag 名）                              |
-| `-end`     | string     | 设置分析的结束范围（tag 名）                                |
+| `-start`   | string     | 设置分析的开始范围（tag）                              |
+| `-end`     | string     | 设置分析的结束范围（tag）                                |
 | `-output`  | string     | 将分析结果以 markdown 格式输出到文件 |
 | `-simple`  |            | 简化输出内容 |
 
@@ -82,7 +82,7 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 | `-latest`    | string | 给定一个版本 tag，自动尝试找出仓库内前一个[语义化版本号](https://semver.org/)，并对两个版本间的变化执行分析。 |
 | `-branch`  | string     | MR-Tracker 默认基于仓库的 default 分支进行 MR 分析。 <br /> 如果想要关注其它分支的 MR 变动，通过此参数来指定分支名。 |
 
-*你也可以使用环境变量来存储 token:
+*你也可以用环境变量来存储 token:
 ```
 export MR_TRACKER_TOKEN=XXXXXXXX
 ```

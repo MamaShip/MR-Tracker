@@ -56,3 +56,28 @@ func Post(url string, jsonData []byte) []byte {
 	}
 	return body
 }
+
+func Put(url string, jsonData []byte) []byte {
+	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// set the request header Content-Type for json
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer resp.Body.Close()
+	//We Read the response body on the line below.
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	if resp.StatusCode > 299 {
+		log.Fatalf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
+	}
+	return body
+}

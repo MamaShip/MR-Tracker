@@ -1,7 +1,6 @@
 package gitlab
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -36,6 +35,9 @@ func Post2Issue(changes string, s utils.UserSettings) error {
 		fmt.Println("Nothing to post")
 		return nil
 	}
+
+	title := utils.GenerateTitle(s.StartTag, s.EndTag)
+
 	var g Gitlab
 	if isOfficialGitlab(s.Site) {
 		g = NewGitlab(s.Project, s.Token)
@@ -43,19 +45,9 @@ func Post2Issue(changes string, s utils.UserSettings) error {
 		g = NewCustomGitlab(s.Site, s.Project, s.Token)
 	}
 
-	issue_api := g.String() + "/issues"
-	r := IssueRqst{
-		Title:       utils.GenerateTitle(s.StartTag, s.EndTag),
-		Description: changes,
-		Token:       g.Token,
+	if g.issueExists(title) {
+		return g.updateIssue(title, changes)
+	} else {
+		return g.newIssue(title, changes)
 	}
-	jsonData, err := json.Marshal(r)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	response := utils.Post(issue_api, jsonData)
-	result := ParseIssueResp(response)
-	fmt.Printf("Issue %d created: %s\n", result.Id, result.WebUrl)
-	return nil
 }
