@@ -30,6 +30,7 @@ func main() {
 		if start == "" && end == "" {
 			log.Fatal("'-latest' enabled but no valid tag found!")
 		}
+		fmt.Println("Analyze latest changes between:", start, end)
 		utils.Settings.StartTag, utils.Settings.EndTag = start, end
 	}
 
