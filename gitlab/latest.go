@@ -9,6 +9,9 @@ import (
 	"github.com/blang/semver/v4"
 )
 
+// Given a tag, return a (start, end) tag tuple
+//   end = the given tag
+//   start = latest formal version tag before the given tag
 func GetLatestTag(s utils.UserSettings) (string, string) {
 	var g Gitlab
 	if isOfficialGitlab(s.Site) {
@@ -38,7 +41,8 @@ func prevSemver(current string, tags []Tag) string {
 	if err != nil {
 		return ""
 	}
-	latestSemver, _ := semver.Make("0.0.0")
+	// use semver.Version struct to compare versions
+	latestSemver, _ := semver.Make("0.0.0") // fake initial version
 	var latestTag string
 	for _, tag := range tags {
 		if tag.Name == current {
@@ -49,8 +53,10 @@ func prevSemver(current string, tags []Tag) string {
 			continue
 		}
 		if semver.GT(latestSemver) && semver.LT(endSemver) {
-			latestSemver = semver
-			latestTag = tag.Name
+			if isFormalVersion(tag.Name) {
+				latestSemver = semver
+				latestTag = tag.Name
+			}
 		}
 	}
 	return latestTag
@@ -67,10 +73,18 @@ func tagExist(want string, tags []Tag) bool {
 
 var semverPattern = regexp.MustCompile(`[a-zA-Z]?(\d+\.\d+\.\d+).*`)
 
+// extract "0.0.0" part from given string
+// and convert it to semver.Version struct
 func getSemver(s string) (semver.Version, error) {
 	matched := semverPattern.FindStringSubmatch(s)
 	if (matched != nil) && (len(matched) >= 2) {
 		return semver.Parse(matched[1])
 	}
 	return semver.Version{}, fmt.Errorf("invalid semver")
+}
+
+var formalVerRgx = regexp.MustCompile(`^[a-zA-Z]?(\d+\.\d+\.\d+)$`)
+
+func isFormalVersion(s string) bool {
+	return formalVerRgx.MatchString(s)
 }

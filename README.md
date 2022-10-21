@@ -79,7 +79,7 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 | ---------- | ---------- | ---------------------------------------------------------- |
 | `-token`*   | string     | Set your Gitlab API token for the project.<br /> This is essential for non-public repos. |
 | `-post`    |            | If this flag is set, result will be posted as gitlab issue. <br /> The Gitlab API token is needed for authentication. |
-| `-latest`    | string | Given a version tag, changes of latest [Semantic Version](https://semver.org/) will be analyzed.(ignoring pre-release & build identifier) |
+| `-latest`    | string | Given a version tag, changes of latest formal version([Semantic Version](https://semver.org/)) will be analyzed.(ignoring pre-release & build identifier) |
 | `-branch`  | string     | MR-Tracker automatically analysis MRs on default branch. <br /> If you wanna track changes on other branches, set it by this option. |
 
 *You can use environment variables to store the private token:

@@ -79,7 +79,7 @@ MR-Tracker -project 278964 -start v14.10.0-ee -end v14.10.1-ee -output changes.m
 | ---------- | ---------- | ---------------------------------------------------------- |
 | `-token`*   | string     | 设置你的 Gitlab API token。<br /> 私有仓库必须有 token 才可能执行分析。 |
 | `-post`    |            | 将分析结果发布到该仓库的 Issue 页面。 |
-| `-latest`    | string | 给定一个版本 tag，自动尝试找出仓库内前一个[语义化版本号](https://semver.org/)，并对两个版本间的变化执行分析。 |
+| `-latest`    | string | 给定一个版本 tag，自动尝试找出仓库内前一个正式版本（基于[语义化版本号](https://semver.org/)），并对两个版本间的变化执行分析。 |
 | `-branch`  | string     | MR-Tracker 默认基于仓库的 default 分支进行 MR 分析。 <br /> 如果想要关注其它分支的 MR 变动，通过此参数来指定分支名。 |
 
 *你也可以用环境变量来存储 token:
