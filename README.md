@@ -2,8 +2,9 @@
 
 English | [中文](README-zh.md)
 
+[![Go build](https://github.com/MamaShip/MR-Tracker/actions/workflows/build.yml/badge.svg)](https://github.com/MamaShip/MR-Tracker/actions/workflows/build.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f28b966f3baf7ab66a9d/maintainability)](https://codeclimate.com/github/MamaShip/MR-Tracker/maintainability)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/MamaShip/MR-Tracker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MamaShip/MR-Tracker/alerts/)
+[![CodeQL](https://github.com/MamaShip/MR-Tracker/actions/workflows/codeql.yml/badge.svg)](https://github.com/MamaShip/MR-Tracker/actions/workflows/codeql.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/MamaShip/MR-Tracker.svg)](https://pkg.go.dev/github.com/MamaShip/MR-Tracker)
 
 Find changes between given versions by analyzing merge requests.
